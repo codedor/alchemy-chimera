@@ -1,0 +1,21 @@
+@media only screen (min-width: @screen-sm) and (max-width : @screen-lg) {
+	#wrapper{
+		#sidebar-wrapper{
+			&.collapsed{
+				
+			}
+		}
+	}
+}
+@media only screen and (max-width : @screen-sm) {
+	#wrapper{
+		&.collapsed{
+			#sidebar-wrapper{	
+				display: none;
+			}
+			#page-wrapper{
+				margin-left: 0px;
+			}
+		}
+	}	
+}

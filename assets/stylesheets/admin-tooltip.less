@@ -1,0 +1,17 @@
+.tooltip{
+	.tooltip-inner{
+		min-width: 100px;
+		padding: 7px;
+		background: @gray-darkest;
+		font-family: @open-sans-light;
+	}
+	&.in{
+		opacity: 0.95;
+		filter: alpha(opacity=95);
+	}
+	&.right{
+		.tooltip-arrow{
+			left: 1px;
+		}
+	}
+}
