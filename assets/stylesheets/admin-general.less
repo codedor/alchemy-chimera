@@ -8,3 +8,37 @@
 		margin-right: 6px;
 	}
 }
+
+// Notifications
+.notification{
+	display: block !important;
+	a{
+		box-sizing:content-box;
+		-moz-box-sizing:content-box; /* Firefox */
+		margin: 20px;
+		padding: 10px 20px 10px 20px !important;
+		max-width: 300px;
+		transition: .2s all;
+	}
+	&.notification-info {
+		.notification-anchor(@blue);
+	}
+	&.notification-danger{ 
+		.notification-anchor(@red);
+	}
+	&.notification-warning{
+		.notification-anchor(@orange);
+	}
+	&.notification-success{
+		.notification-anchor(@green);
+	}
+	// Anchor mixin
+	.notification-anchor(@color) {
+		a {
+			background: rgba(red(@color), green(@color), blue(@color), 0.05) !important;//#edf7fc;
+			&:hover{
+				background: rgba(red(@color), green(@color), blue(@color), 0.2) !important;
+			}
+		}
+	}
+}

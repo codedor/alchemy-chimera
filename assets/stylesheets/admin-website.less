@@ -3,6 +3,7 @@ html{
 	body{
 		height: 100%;
 		background: @gray-lightest;
+		font-family: @open-sans;
 		font-size: 62.5%;
 	}
 }
@@ -25,7 +26,7 @@ header{
 				}
 				a{
 					color: @white;
-					font-family: @open-sans-regular;
+					font-family: @open-sans;//-regular;
 					&.navbar-brand{
 						font-size: 18px;
 						font-size: 1.8rem;
@@ -81,25 +82,31 @@ header{
 							}
 						}
 						&.dropdown{
-							.arrow{
+							.arrow-container{
 								display: none;
 							}
 							&.open{
-								.arrow{
-									top: 55px;
+								.arrow-container{
+									top: 53px;
 									left: 50%;
 									position: absolute;
 									display: block;
 									z-index: 1001;
-									width: 15px;
-									height: 15px;
-									background: @white;
-									border-top: 1px solid @gray-lighter;
-									border-left: 1px solid @gray-lighter;
-									transform:rotate(45deg);
-									-ms-transform:rotate(45deg); /* IE 9 */
-									-webkit-transform:rotate(45deg); /* Opera, Chrome, and Safari */
-
+									width: 20px;
+									height: 10px;
+									overflow: hidden;
+									.arrow{
+										width: 15px;
+										height: 15px;
+										background: @white;
+										border-top: 1px solid @gray-lighter;
+										border-left: 1px solid @gray-lighter;
+										transform:rotate(45deg);
+										-ms-transform:rotate(45deg); /* IE 9 */
+										-webkit-transform:rotate(45deg); /* Opera, Chrome, and Safari */
+										margin-left: 3px;
+										margin-top: 3px;
+									}	
 								}
 								a.dropdown-toggle{
 									.fa-angle-left{
@@ -159,7 +166,7 @@ header{
 							margin: 10px 0px 0px 0px;
 							width: 250px;
 							a{
-								font-family: @open-sans-regular;
+								font-family: @open-sans;//-regular;
 								color: @gray-light;
 								transition: .1s all;
 								font-size: 14px;
@@ -323,12 +330,20 @@ header{
 	}
 }
 #page-wrapper{
-	position: relative;
+	position: fixed;
 	z-index: 2000;
-	margin-left: 250px;
-	padding: 30px 15px;
+	bottom: 0;
 	top: 50px;
-	//overflow: hidden;
+	left: 260px;
+	height: auto;
+	width: 100%;
+	background-image:url('/public/img/admin_logo_transparent.png');
+	background-repeat: no-repeat;
+	background-position: bottom right 260px;
+	-o-background-size:35% auto;
+	-webkit-background-size:35% auto;
+	-moz-background-size:35% auto;
+	background-size:35% auto;
 }
 
 
