@@ -11,19 +11,27 @@ html{
 header{
 	position: relative;
 	z-index: 4000;
-	.navbar{
-		margin-bottom: 0px;
-		background: @white;
-		.navbar-nav{
-			margin: 0px;
-			&#navbar-sidebar{
-				width: 250px;
-				background: @gray-dark-tint;
-				float: left;
-				&.collapsed{
+	&.collapsed{
+		.navbar{
+			box-shadow: 50px 2px 2px @gray-lighter;
+			.navbar-nav{
+				&#navbar-sidebar{
 					position: absolute;
 					left: -250px;
 				}
+			}
+		}
+	}		
+	.navbar{
+		margin-bottom: 0px;
+		background: @white;
+		box-shadow: 250px 2px 2px @gray-lighter;
+		.navbar-nav{
+			margin: 0px;
+			float: left;
+			&#navbar-sidebar{
+				width: 250px;
+				background: @gray-dark-tint;
 				a{
 					color: @white;
 					font-family: @open-sans;//-regular;
@@ -57,8 +65,12 @@ header{
 						outline: none;
 					}
 				}
+				&.navbar-left{
+					float: left;
+				}
 				&.navbar-right{
-					margin-right: 50px;
+					float: right;
+					margin-right: 40px;
 					li{
 						display: inline-block;
 						> a{
@@ -264,6 +276,12 @@ header{
 	}
 	&.collapsed{
 		#sidebar-wrapper{
+			width: 50px;
+			overflow: hidden;
+			&.overflow{
+				width: auto;
+				overflow: visible;
+			}
 			#sidebar-wrapper-inner{
 				width: 50px;
 				background: @green;
@@ -325,16 +343,17 @@ header{
 			}
 		}
 		#page-wrapper{
-			margin-left: 50px;
+			//margin-left: 50px;
+			padding-left: 50px;
 		}
 	}
 }
 #page-wrapper{
-	position: fixed;
+	position: absolute;
 	z-index: 2000;
 	bottom: 0;
 	top: 50px;
-	left: 260px;
+	padding-left: 250px;
 	height: auto;
 	width: 100%;
 	background-image:url('/public/img/admin_logo_transparent.png');

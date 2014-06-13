@@ -15,6 +15,7 @@ if(typeof(allGroupedFields) === 'undefined'){
 emit('create-chimera-filters', {fields: allGroupedFields, modelName: modelName, filters: filters})
 %>
 <div class="filters">
+	<header class="title"><% echo(__('chimera', 'Filter')) %><span class="semi-bold"><% echo(__('chimera', 'Options')) %></span></header>	
 	<% form.create(modelName, {action: 'here', 'class': 'form-horizontal'}) %>
 	<!-- SHOW X ITEMS PER PAGE -->
 	<div class="row">

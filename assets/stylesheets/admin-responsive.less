@@ -9,13 +9,42 @@
 }
 @media only screen and (max-width : @screen-sm) {
 	#wrapper{
+		#page-wrapper{
+			width: auto;
+			overflow: hidden;
+			position: fixed;
+		}
 		&.collapsed{
 			#sidebar-wrapper{	
 				display: none;
 			}
 			#page-wrapper{
+				overflow: inherit;
+				position: absolute;
+				width: 100%;
 				margin-left: 0px;
+				padding-left: 0px; 
 			}
 		}
 	}	
+}
+@media only screen and (max-width : 400px) {
+	header{
+		.navbar{
+			.navbar-nav{
+				& + .nav + .navbar-right{
+					display: block;
+				}
+			}
+		}
+		&.collapsed{
+			.navbar{
+				.navbar-nav{
+					& + .nav + .navbar-right{
+						display: none;
+					}
+				}
+			}
+		}
+	}
 }

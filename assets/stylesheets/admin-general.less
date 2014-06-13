@@ -1,11 +1,39 @@
+// General stuff
+.clear {
+	clear: both;
+}
+
 .container{
 	width: 100% !important;
+}
+.semi-bold {
+	font-weight: 600;
+}
+.no-border {
+	border: none !important;
 }
 
 // Actions
 .actions{
+	margin: 10px 0px;
 	.btn{
-		margin-right: 6px;
+		margin-left: 5px;
+		&:first-child{
+			margin-left: 0px;
+		}
+	}
+}
+
+// Filters
+.filters{
+	margin-bottom: 30px;
+	padding: 25px;
+	background: @white;
+	> header{
+		font-weight: 300;
+		margin-top: 0px;
+		font-size: 24px;
+		font-size: 2.4rem;
 	}
 }
 
@@ -19,6 +47,19 @@
 		padding: 10px 20px 10px 20px !important;
 		max-width: 300px;
 		transition: .2s all;
+		font-size: 11px !important;
+		font-size: 1.1rem !important;
+		color: rgba(red(@black), green(@black), blue(@black), 0.5) !important;
+		strong{
+			color: @black;
+			font-size: 14px;
+			font-size: 1.4rem;
+		}
+		.timeago{
+			font-size: 100%;
+			font-style: italic;
+			color: rgba(red(@black), green(@black), blue(@black), 0.3);
+		}
 	}
 	&.notification-info {
 		.notification-anchor(@blue);
@@ -40,5 +81,92 @@
 				background: rgba(red(@color), green(@color), blue(@color), 0.2) !important;
 			}
 		}
+	}
+}
+
+// pcard
+.pcard {
+	//font-family: @open-sans;
+	padding: 0;
+	margin: 0 0 25px;
+
+	header {
+		color: @gray-light !important;
+		//border-bottom: 1px solid @gray-light;
+		background-color: @white;
+		border: 1px solid @gray-light;
+		padding: 14px 15px 7px 15px;
+		margin-bottom: 0px;
+		border-bottom: 0px;
+
+		/*h1 {
+			display: inline-block;
+			font-size: 16px;
+			font-weight: 400;
+			margin: 0;
+			padding: 0;
+			margin-bottom: 7px;
+			width: 60%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			//font-family: @open-sans;
+		}*/
+	}
+
+	/*.tools {
+		display: inline-block;
+		position: relative;
+		padding: 0;
+		margin: 0;
+		float: right;
+
+		a.btn {
+			min-width: 25px;
+			color: @gray;
+			border: none;
+		}
+	}*/	
+}
+
+// Table wrapper
+.tablewrap {
+	padding: 25px;
+	margin-bottom: 20px;
+	background: @white;
+	div.pagination {
+		float: right;
+		margin: 0;
+		margin-left: 8px;
+		ul {
+			box-shadow: none;
+			font-size: 12px;
+			padding: 0;
+			margin-bottom: 0px;
+			margin-top: 0px;
+			> li {
+				> a {
+					border: none;
+					box-shadow: none;
+					border-radius: 3px;
+					margin-left: 3px;
+					color: #6F7B8A;
+				}
+
+				&.active > a {
+					color: white;
+				}
+			}
+		}
+	}
+
+	div.listinfo {
+		padding-top: 3px;
+		padding-bottom: 3px;
+		font-size: 12px;
+		float: right;
+		display: inline-block;
+		padding-right: 14px;
+		border-right: 1px solid #cecece;
 	}
 }
