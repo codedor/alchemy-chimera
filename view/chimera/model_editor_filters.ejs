@@ -15,7 +15,6 @@ if(typeof(allGroupedFields) === 'undefined'){
 emit('create-chimera-filters', {fields: allGroupedFields, modelName: modelName, filters: filters})
 %>
 <div class="filters">
-	<header class="title"><% echo(__('chimera', 'Filter')) %><span class="semi-bold"><% echo(__('chimera', 'Options')) %></span></header>	
 	<% form.create(modelName, {action: 'here', 'class': 'form-horizontal'}) %>
 	<!-- SHOW X ITEMS PER PAGE -->
 	<div class="row">
@@ -34,7 +33,7 @@ emit('create-chimera-filters', {fields: allGroupedFields, modelName: modelName, 
 	</div>
 	<div class="clear"></div>
 
-	<div class="row" style="margin-bottom: 5px;">
+	<div class="row" style="margin-bottom: 15px;">
 		<div class="col-sm-12">
 			<div class="input-group">
 				<span class="input-group-addon search-btn" style="cursor: pointer;"><i class="fa fa-search"></i></span>
@@ -54,6 +53,7 @@ emit('create-chimera-filters', {fields: allGroupedFields, modelName: modelName, 
 					<div class="panel-heading" id="filters-collapse">
 						<h4 class="panel-title" >
 							<% echo(__('chimera', 'Filters')) %>
+							<span class="semi-bold"><% echo(__('chimera', 'Options')) %></span>
 						</h4>
 					</div>
 					<div id="collapse-filters" class="panel-collapse collapse">

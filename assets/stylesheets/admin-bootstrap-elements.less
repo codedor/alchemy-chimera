@@ -9,7 +9,7 @@
 
 // Buttons
 .btn{
-	border: none;
+	border: 1px solid @gray-lighter;
 	transition: .1s all;
 	font-family: @open-sans;//-light;
 	font-weight: 300;
@@ -26,40 +26,50 @@
 	}
 	&.btn-default{
 		font-family: @open-sans;//-regular;
-		border: 1px solid @gray-lightest;
+		//border: 1px solid @gray-lighter;
 		&:hover,
 		&.active{
 			background: @gray-ultra-light;
 		}
 	}
 	&.btn-success{
+		border-color: @blue-light;
 		background: @blue-light;
 		&:hover{
+			border-color: @blue;
 			background: @blue;
 		}
 	}
 	&.btn-info{
 		background: @blue-dark;
+		border-color: @blue-dark; 
 		&:hover{
 			background: @blue-darkest;
+			border-color: @blue-darkest; 
 		}
 	}
 	&.btn-primary{
 		background: @green;
+		border-color: @green; 
 		&:hover{
 			background: @green-tint;
+			border-color: @green-tint;
 		}
 	}
 	&.btn-warning{
 		background: @orange-light;
+		border-color: @orange-light;
 		&:hover{
 			background: @orange;
+			border-color: @orange;
 		}
 	}
 	&.btn-danger{
 		background: @red-light;
+		border-color: @red-light;
 		&:hover{
 			background: @red;
+			border-color: @red;
 		}
 	}
 }
@@ -83,6 +93,22 @@
 	border-radius: @border-radius-base;
 	.box-shadow(0 6px 12px rgba(0,0,0,.175));
 	background-clip: padding-box;
+}
+
+// Form-control
+.form-control{
+	border-color: @gray-lighter;
+}
+
+// Input-group
+.input-group{
+	.input-group-addon{
+		background: @white;
+	}
+	.search-input{
+		color: @black;
+		.placeholder(@black);
+	}
 }
 
 // Labels
@@ -121,6 +147,10 @@
 }
 
 // Panels
+.panel-group{
+	margin-bottom: 30px;
+}
+
 .panel{
 
 	// Primary styling of a panel
@@ -131,6 +161,7 @@
 		background: none;
 		border: none;
 		border-radius: 0px;
+		padding: 15px 30px;
 		h1,
 		h2,
 		h3,
@@ -140,6 +171,9 @@
 		.panel-title{
 			margin: 0px;
 			color: @white;
+			font-weight: 300;
+			font-size: 24px;
+			font-size: 2.4rem;
 		}
 		.controls{
 			float: right;
@@ -195,6 +229,7 @@
 			}
 		}
 		.panel-footer{
+			background: @white;
 			color: @gray;
 		}
 	}
