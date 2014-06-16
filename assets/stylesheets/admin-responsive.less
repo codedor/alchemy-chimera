@@ -8,6 +8,41 @@
 	}
 }
 @media only screen and (max-width : @screen-sm) {
+	header{
+		.navbar{
+			background: @gray-darkest;
+			.navbar-nav{
+				&.navbar-user{
+					.collapse-sidebar{
+						color: @white;
+						&:hover{
+							color: @gray-lightest;
+						}
+					}
+					&.navbar-right{
+						li{
+							> a{
+								color: @white;
+							}
+						}
+					}
+				}
+				.open {
+					.dropdown-menu{
+						.dropdown-menu();
+						display: block;
+						left: auto;
+						right: 0px;
+					}
+				}
+			}
+		}
+		&.collapsed{
+			.navbar{
+				box-shadow: 0px 2px 2px @gray-lighter;
+			}
+		}
+	}
 	#wrapper{
 		#page-wrapper{
 			width: auto;
@@ -33,7 +68,7 @@
 		.navbar{
 			.navbar-nav{
 				& + .nav + .navbar-right{
-					display: block;
+					display: none;
 				}
 			}
 		}
@@ -41,7 +76,7 @@
 			.navbar{
 				.navbar-nav{
 					& + .nav + .navbar-right{
-						display: none;
+						display: block;
 					}
 				}
 			}

@@ -15,7 +15,11 @@
 
 // Actions
 .actions{
-	margin: 10px 0px;
+	&.paginate-actions{
+		margin-bottom: 10px;
+		display: inline;
+		float: right;
+	}
 	.btn{
 		margin-left: 5px;
 		&:first-child{
@@ -30,10 +34,7 @@
 	padding: 25px;
 	background: @white;
 	> header{
-		font-weight: 300;
-		margin-top: 0px;
-		font-size: 24px;
-		font-size: 2.4rem;
+		
 	}
 }
 
@@ -87,8 +88,8 @@
 // pcard
 .pcard {
 	//font-family: @open-sans;
-	padding: 0;
-	margin: 0 0 25px;
+	padding: 0px;
+	margin: 0px;
 
 	header {
 		color: @gray-light !important;
@@ -127,6 +128,11 @@
 			border: none;
 		}
 	}*/	
+}
+
+// Select 2
+.select2-container{
+	width: 100%;
 }
 
 // Table wrapper
