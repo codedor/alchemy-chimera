@@ -62,6 +62,27 @@
 			}
 		}
 	}
+	.table-responsive{
+		width: inherit;
+		margin-bottom: inherit;
+		overflow-y: inherit;
+		overflow-x: inherit;
+		-ms-overflow-style: inherit;
+		border: inherit;
+		-webkit-overflow-scrolling: inherit;
+		> .table{
+			> thead,
+			> tbody,
+			> tfoot {
+				> tr {
+					> th,
+					> td {
+						white-space: inherit;
+					}
+				}
+			}
+		}
+	}
 	table{
 		&.responsive-table{
 			&,
@@ -86,13 +107,13 @@
 						&,
 						&:hover{
 							> td{
-								background: @green;
-								color: @white;
+								background: @gray-lightest;
+								color: @gray;
 								a{
-									color: @white;
+									color: @gray;
 								}
 								.btn{
-									color: @black;
+									color: @gray;
 								}
 							}
 						}
@@ -108,13 +129,47 @@
 							/* Now like a table header */
 							position: absolute;
 							/* Top/left values mimic padding */
-							top: 6px;
-							left: 6px;
+							top: 10px;
+							left: 10px;
 							width: 45%; 
 							padding-right: 10px; 
 							white-space: nowrap;
 						}
+						&[data-title="Acl group"]{
+							padding-left: 10px;
+							width: 100%;
+							display: block;
+							&:before{
+								display: block;
+								width: 100%;
+								left: 0px;
+								top: 0px;
+								position: relative;
+							}
+						}
 					}
+				}
+			}
+		}
+	}
+}
+@media only screen and (max-width : @screen-xs-max) {
+	.nav-tabs{
+		margin-bottom: 15px;
+		> li{
+			width: 25% !important;
+			margin-bottom: 5px;
+			&.active{
+				margin-bottom: 5px;
+			}
+			> a{
+				margin-right: 5px;
+				border: none;
+				border-radius: 0px;
+			}
+			&:nth-child(4n){
+				> a{
+					margin-right: 0px;
 				}
 			}
 		}

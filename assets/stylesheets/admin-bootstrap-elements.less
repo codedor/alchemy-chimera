@@ -14,6 +14,9 @@
 	font-family: @open-sans;//-light;
 	font-weight: 300;
 	font-size: 12px;
+	font-size: 1.2rem;
+	line-height: 20px;
+	line-height: 2rem;
 	.fa{
 		& + span,
 		& + hawkejs{
@@ -25,10 +28,10 @@
 		box-shadow: none;
 	}
 	&.btn-default{
-		font-family: @open-sans;//-regular;
-		//border: 1px solid @gray-lighter;
+		font-family: @open-sans;
 		&:hover,
 		&.active{
+			border-color: @gray-lighter;
 			background: @gray-ultra-light;
 		}
 	}
@@ -98,6 +101,13 @@
 // Form-control
 .form-control{
 	border-color: @gray-lighter;
+	font-size: 12px;
+	font-size: 1.2rem;
+	box-shadow: none;
+	&[readonly],
+	&[disabled]{
+		background: @gray-lightest;
+	}
 }
 
 // Input-group
@@ -124,6 +134,43 @@
 	}
 	&.label-warning{
 		background: @orange;
+	}
+}
+
+.nav-tabs{
+	border: none;
+	width: 100%;
+	> li{
+		height: 60px;
+		max-width: 180px;
+		margin: 0px;
+		box-sizing:border-box;
+		-moz-box-sizing:border-box; /* Firefox */
+		> a{
+			border: 1px solid @gray-lightest;
+			padding: 5px 10px;
+			height: 100%;
+			margin: 0px;
+			background: @gray-lighter;
+			color: @green;
+		}
+		&.active{
+			margin-bottom: -5px;
+			> a{
+				&,
+				&:hover,
+				&:focus{
+					border: none !important;
+					padding-bottom: 7px;
+				}
+			}
+		}
+		&:first-child{
+			padding-left: 0px;
+			> a{
+				margin-left: 0px;
+			}
+		}
 	}
 }
 
@@ -193,6 +240,9 @@
 				}
 			}
 		}
+	}
+	.panel-body{
+		padding: 30px 15px 30px 15px;
 	}
 	.panel-footer{
 		background: @gray-lightest;

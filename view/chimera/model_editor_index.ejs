@@ -26,7 +26,7 @@ start(store('chimera-view-setting').contentblock) -%>
 			</div>
 		</div>
 	</header>
-	<div class="body no-border tablewrap">
+	<div class="body no-border tablewrap table-responsive">
 		<table class="table table-hover indextable responsive-table" style="margin-bottom:0px;">
 			<thead>
 				<tr>
@@ -70,7 +70,7 @@ start(store('chimera-view-setting').contentblock) -%>
 					<% for (j = 0; j < fieldInfo.length; j++) { 
 						field = fieldInfo[j];
 					%>
-						<td data-title="<% echo(field.title) %>"><% chimera.field(item.fields, fieldInfo[j]) %></td>
+						<td data-title="<%= field.title %>"><% chimera.field(item.fields, fieldInfo[j]) %></td>
 					<% } %>
 				</tr>
 			<% } %>

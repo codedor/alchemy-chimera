@@ -16,18 +16,50 @@
 // Actions
 .actions{
 	&.paginate-actions{
-		margin-bottom: 15px;
+		margin-bottom: 10px;
 		display: inline;
 		float: right;
+		.btn{
+			margin-bottom: 5px;
+		}
 	}
 	&.record-actions{
 		min-width: 100px;
 	}
 	.btn{
-		margin-left: 5px;
-		&:first-child{
-			margin-left: 0px;
+		margin-right: 5px;
+		&:last-child{
+			margin-right: 0px;
 		}
+	}
+}
+
+// Alchemy-error
+.alchemy-error{
+
+	pre {
+		margin: 0;
+		font-size: inherit;
+		background-color: inherit;
+		padding: 0;
+		border: none;
+	}
+
+	.message {
+		background: rgba(red(@red), green(@red), blue(@red), 0.1);
+		border-radius: 5px;
+		margin-bottom: 15px;
+		font-size: 12px;
+		font-size: 1.2rem;
+		font-weight: bold;
+		border: 1px solid rgba(red(@red), green(@red), blue(@red), 0.5);
+		color: rgba(red(@red), green(@red), blue(@red), 0.75);
+		padding: 10px 15px;
+		cursor: pointer;
+	}
+
+	.stack {
+		margin-left: 50px;
 	}
 }
 
@@ -36,6 +68,23 @@
 	.btn{
 		font-size: 14px;
 		font-size: 1.4rem;
+	}
+}
+
+// Controls
+.controls{
+	hawkejs{
+		display: block;
+		& + hawkejs{
+			margin-top: 15px;
+		}
+		& +.btn{
+			margin-top: 15px;
+		}
+	}
+	.alert{
+		margin-bottom: 0px;
+		margin-top: 15px;
 	}
 }
 
@@ -144,6 +193,18 @@
 // Select 2
 .select2-container{
 	width: 100%;
+	&.select2-container-disabled{
+		.select2-choice,
+		.select2-choices{
+			background: @gray-lightest;
+			border: 1px solid @gray-lighter;
+			.select2-arrow{
+				background: @gray-lightest;
+				top: 2px;
+				right: 5px;
+			}
+		}
+	}
 	&.select2-dropdown-open{
 		.select2-choice{
 			background: @white;
@@ -154,16 +215,29 @@
 			box-shadow: none;
 		}
 	}
+	&.select2-container-multi{
+		.select2-choices{
+			min-height: 34px;
+			border: 1px solid @gray-lighter;
+			background-image: none;
+		}
+	}
 	.select2-choice{
 		border: 1px solid @gray-lighter;
 		background-image: none;
-		height: 31px;
+		height: 34px;
+		.select2-chosen{
+			line-height: 34px;
+		}
 		.select2-arrow{
 			background-image: none;
 			background: @white;
 			border-left: none;	
 		}
 	}
+}
+.select2-drop{
+//	margin-top: -3px;
 }
 .select2-drop-active{
 	border-color: @gray-lighter;
@@ -209,4 +283,13 @@
 		padding-right: 14px;
 		border-right: 1px solid #cecece;
 	}
+}
+.table-responsive{
+	width: 100%;
+	margin-bottom: 15px;
+	overflow-y: hidden;
+	overflow-x: scroll;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+	border: 1px solid #e5e9ec;
+	-webkit-overflow-scrolling: touch;
 }
