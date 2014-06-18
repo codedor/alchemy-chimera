@@ -145,21 +145,24 @@
 	border: none;
 	width: 100%;
 	> li{
-		height: 60px;
+		height: 40px;
 		max-width: 180px;
 		margin: 0px;
 		box-sizing:border-box;
 		-moz-box-sizing:border-box; /* Firefox */
+		overflow: hidden;
 		> a{
-			border: 1px solid @gray-lightest;
-			padding: 5px 10px;
+			border: 1px solid @gray-ultra-light-tint;
+			padding: 10px 15px;
 			height: 100%;
-			margin: 0px;
-			background: @gray-lighter;
-			color: @green;
+			margin: 0px 0px 0px 1px;
+			background: @gray-ultra-light-tint;
+			color: @gray-light;
 		}
 		&.active{
+			width: 25% !important;
 			margin-bottom: -5px;
+			overflow: visible;
 			> a{
 				&,
 				&:hover,
@@ -175,7 +178,27 @@
 				margin-left: 0px;
 			}
 		}
+		&:hover{
+			> a{
+				border-color: darken(@gray-ultra-light-tint, 5%);
+				background: darken(@gray-ultra-light-tint, 5%);
+			}
+		}
 	}
+}
+
+//modal
+.modal{
+	z-index: 8500;
+	.modal-content{
+		background: @gray-ultra-light;
+		.panel{
+			margin-bottom: 0px;
+		}
+	}
+}
+.modal-backdrop{
+	z-index: 8000;
 }
 
 // Pagination

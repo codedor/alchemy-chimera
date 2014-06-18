@@ -36,9 +36,6 @@ $(window).load(function() {
 		}).tooltip();
 	});
 
-	/*$('#sidebar-wrapper li').each(function(){
-		$(this).attr({'data-parent': '#sidebar-wrapper'});
-	});*/
 	$('#sidebar-wrapper .nano-content .nav').hover( 
 		function() {
 			$('#sidebar-wrapper ').addClass('overflow');

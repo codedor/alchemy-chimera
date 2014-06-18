@@ -60,6 +60,7 @@
 
 	.stack {
 		margin-left: 50px;
+		padding-bottom: 30px;
 	}
 }
 
@@ -147,10 +148,8 @@
 
 // pcard
 .pcard {
-	//font-family: @open-sans;
 	padding: 0px;
 	margin: 0px;
-
 	header {
 		color: @gray-light !important;
 		//border-bottom: 1px solid @gray-light;
@@ -159,35 +158,7 @@
 		padding: 14px 15px 7px 15px;
 		margin-bottom: 0px;
 		border-bottom: 0px;
-
-		/*h1 {
-			display: inline-block;
-			font-size: 16px;
-			font-weight: 400;
-			margin: 0;
-			padding: 0;
-			margin-bottom: 7px;
-			width: 60%;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			//font-family: @open-sans;
-		}*/
 	}
-
-	/*.tools {
-		display: inline-block;
-		position: relative;
-		padding: 0;
-		margin: 0;
-		float: right;
-
-		a.btn {
-			min-width: 25px;
-			color: @gray;
-			border: none;
-		}
-	}*/	
 }
 
 // Select 2
@@ -355,6 +326,9 @@ table{
 			& + hawkejs{
 				margin-top: 0px;
 			}
+		}
+		.fileinput-button{
+			width: 100%;
 		}
 	}
 	.preview{

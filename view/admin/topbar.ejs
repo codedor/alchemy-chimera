@@ -8,7 +8,7 @@ emit('chimera-notifications')
 <li class="dropdown">
 	<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 		<span class="badge badge-important"><% if(typeof unread == 'number' && unread>0){%><%= unread %><% } %></span>
-		<%= name %> 
+		<%= name %>
 		<i class="fa fa-angle-left"></i>
 	</a>
 	<div class="arrow-container">
@@ -24,7 +24,7 @@ emit('chimera-notifications')
 						<% if(!notification.NotificationUser.read){%> data-usermessageid="<%= notification.NotificationUser._id %>" <% } %>
 						<% if(notification.NotificationMessage.external_link){%> target="_blank" <% } %>
 					>
-						<strong><%= notification.User.first_name %> <%= notification.User.last_name %></strong>
+						<%= notification.User.first_name %> <strong><%= notification.User.last_name %></strong>
 						<br />
 						<%= notification.NotificationMessage.message %>
 						<br />
