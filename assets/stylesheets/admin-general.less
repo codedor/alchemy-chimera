@@ -273,50 +273,16 @@ table{
 	padding: 25px;
 	margin-bottom: 20px;
 	background: @white;
-	div.pagination {
-		float: right;
-		margin: 0;
-		margin-left: 8px;
-		ul {
-			box-shadow: none;
-			font-size: 12px;
-			padding: 0;
-			margin-bottom: 0px;
-			margin-top: 0px;
-			> li {
-				> a {
-					border: none;
-					box-shadow: none;
-					border-radius: 3px;
-					margin-left: 3px;
-					color: #6F7B8A;
-				}
-
-				&.active > a {
-					color: white;
-				}
-			}
-		}
-	}
-
-	div.listinfo {
+	.listinfo {
 		padding-top: 3px;
 		padding-bottom: 3px;
 		font-size: 12px;
 		float: right;
 		display: inline-block;
 		padding-right: 14px;
-		border-right: 1px solid #cecece;
+		color: @gray-light;
+		border-right: 1px solid @gray-lighter;
 	}
-}
-.table-responsive{
-	width: 100%;
-	margin-bottom: 15px;
-	overflow-y: hidden;
-	overflow-x: scroll;
-	-ms-overflow-style: -ms-autohiding-scrollbar;
-	border: 1px solid #e5e9ec;
-	-webkit-overflow-scrolling: touch;
 }
 
 // Mediagroup

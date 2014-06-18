@@ -203,8 +203,18 @@
 
 // Pagination
 .pagination{
+	float: right;
+	margin: 0;
+	margin-left: 8px;
+	&:after{
+		clear: both;
+	}
 	> li{
 		> a{
+			border: none;
+			box-shadow: none;
+			border-radius: 3px;
+			margin-left: 3px;
 			color: @green;
 		}
 		&.active{
@@ -382,17 +392,20 @@
 	font-family: @open-sans;
 	background-color: transparent;
 
-	thead{
-		th{
-			color: @table-header-color;
-			border-width: 1px !important;
-			&,
-			> a{
-				text-transform: uppercase;
-				text-decoration: none;
-			}
-			> a{
-				color: @table-header-anchor-color;
+	> thead{
+		> tr {
+			> th{
+				padding: 12px;
+				color: @table-header-color;
+				border-width: 1px !important;
+				&,
+				> a{
+					text-transform: uppercase;
+					text-decoration: none;
+				}
+				> a{
+					color: @table-header-anchor-color;
+				}
 			}
 		}
 	}
@@ -403,9 +416,19 @@
 				padding: 12px;
 				border-top: 1px solid @table-border-color;
 				color: @table-tex-color;
+				word-break: break-word;
 			}
 		}
 	}
+}
+.table-responsive{
+	width: 100%;
+	margin-bottom: 15px;
+	overflow-y: hidden;
+	overflow-x: scroll;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+	border: 1px solid #e5e9ec;
+	-webkit-overflow-scrolling: touch;
 }
 
 // Tooltip
