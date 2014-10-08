@@ -1,0 +1,37 @@
+<% expands('layouts/chimera') %>
+
+<% start('pageCentral') %>
+	<main>
+		<article class="chimeraEditor">
+			<header class="chimeraEditor-header u-stretch">
+				<h1 class="u-child">Editor!</h1>
+				<nav class="u-child">
+					Add
+				</nav>
+			</header>
+
+			<table>
+				<tr>
+				<th></th>
+				<% indexFields.forEach(function eachField(field, index) { %>
+					<th><%= field.name %></th>
+				<% }) %>
+				</tr>
+				<% indexItems.forEach(function eachItem(item, index) {
+					print('<tr><td>' + index + '</td>');
+
+					indexFields.forEach(function eachField(field) {
+						print('<td>' + Object.path(item, 'Page.' + field.name) + '</td>');
+					});
+
+					print('</tr>');
+				}) %>
+			</table>
+
+			<% console.log(vars) %>
+			<% console.log('Indexfields', indexFields) %>
+
+			<%= Pagination.getPageNumber() %>
+		</article>
+	</main>
+<% end('pageCentral') %>

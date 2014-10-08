@@ -1,0 +1,15 @@
+.flexParent(@type: row; @alignment: space-between; @wrap: wrap) {
+	//display: -webkit-flex;
+	display: flex;
+
+	//-webkit-flex-flow: @type @wrap;
+	flex-flow: @type @wrap;
+
+	//-webkit-justify-content: @alignment;
+	justify-content: @alignment;
+}
+
+.flexChild(@type: 0 0 auto) {
+	//-webkit-flex: @type;
+	flex: @type;
+}

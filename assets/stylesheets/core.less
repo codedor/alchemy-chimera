@@ -1,0 +1,205 @@
+@import "fonts.less";
+@import "mixins.less";
+
+// Main colours
+@dark-gray: #4C4C4C;
+@gray: #656565;
+@blue: #56BCCF;
+@green: #35C1A3;
+@yellow: #FCCC89;
+@red: #F57D6C;
+@light-gray: #AFAFAF;
+@lightest-gray: #F4F4F4;
+
+// Section colours
+@nav-bg-color: @dark-gray;
+@chimera-title-color: #FFFFFF;
+
+// From here on the variables have correct names
+@width--pageSidebar: 18rem;
+@color-gray: #656565;
+
+/**
+ * RESETS
+ */
+// Apply a natural box layout model to all elements, but allowing components to change
+html {
+	// border-box makes `width` include padding & borders
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+
+	// The basis for rem units
+	// Regular text (like in an article) should be 1rem
+	font-size: 16px;
+	color: @color-gray;
+
+	// We use the Lato font
+	font-family: 'Lato', sans-serif;
+	text-rendering: optimizeLegibility;
+}
+
+* {
+	box-sizing: inherit;
+	padding: 0;
+	margin: 0;
+
+	&:before, &:after {
+		box-sizing: inherit;
+	}
+}
+
+
+body {
+	// The body should be at least 100vh high
+	// vh = Viewportunits Height
+	min-height: 100vh;
+	margin: 0;
+}
+
+
+// Main div layout (only >child of body that should matter)
+#layout {
+	// Take up the entire page
+	width: 100%;
+
+	// And AT-LEAST entire height
+	min-height: 100vh;
+
+	// Turn it into a flexbox wrapper
+	display: flex;
+}
+
+// The first header is semantic container for info, navigation, ...
+.pageSidebar {
+	flex: 1 0 auto; // Turn it into a flex item
+	order: -1; // Display as first
+	background-color: @nav-bg-color;
+
+	// The sidebar is 18rems wide (so 18x16px)
+	max-width: @width--pageSidebar;
+
+	&-fixed {
+		// This is also a flex container
+		display: flex;
+		flex-flow: column wrap;
+		position: fixed;
+		width: @width--pageSidebar;
+	}
+
+	&-branding {
+		flex: 0 0 6.9rem;
+		padding: 1.3rem 1.7rem 0;
+	}
+
+	&-title {
+		flex: 1 0 auto;
+		.fontStyle(larger, bold, normal);
+		letter-spacing: -0.048rem;
+		color: white;
+	}
+}
+
+// Side navigation component
+.sideNav {
+	flex: 1 0 auto;
+
+	&-collection {
+		display: flex;
+		flex-flow: column nowrap;
+
+		
+		&.is-child {
+			// First anchor of a nested ul does not need a border top
+			>.sideNav-link > .sideNav-text {
+				border-top: none;
+			}
+
+			.sideNav-link > .sideNav-text {
+				padding-left: 3.9rem;
+			}
+		}
+	}
+
+	// LI element
+	&-link {
+		flex: none;
+		position: relative;
+
+		// @todo: Why is this not inheriting from html?
+		box-sizing: border-box;
+
+		&:first-child {
+
+			.sideNav-text {
+				border-top: 1px solid @gray;
+			}
+		}
+
+		&.is-parent {
+			>.sideNav-text::after {
+				content: "\25B6"; // Right arrow & "\25BC"; // Down arrow
+				.fontStyle(small, normal);
+				position: absolute;
+				right: 1.4rem;
+			}
+		}
+	}
+
+	// Mostly a span or anchor
+	&-text {
+		display: block;
+		width: 100%;
+		height: 2.91rem;
+		border-bottom: 1px solid @gray;
+
+		// Animate transitions
+		transition: all 0.1s ease-in 0.01s;
+
+		.fontStyle(large, normal, normal);
+		text-decoration: none;
+		text-transform: uppercase;
+		color: white;
+		letter-spacing: -0.06rem;
+		line-height: ~"calc(3rem - 1px)"; // Let the browser handle calc, not less
+		padding-left: 1.652rem;
+
+		&:hover {
+			background-color: @green;
+		}
+	}
+}
+
+// pageCentral component
+.pageCentral {
+	.flexChild(1 0 auto);
+	.flexParent(column);
+
+	&-child {
+		.flexChild(1 0 auto);
+		padding: 0 1.3125rem;
+	}
+
+	&-topBar {
+		letter-spacing: -0.02rem;
+		padding-top: 1.25rem;
+		.fontStyle(larger);
+		.flexChild(0 0 4.2rem);
+		.flexParent();
+	}
+}
+
+// Stretch - Group: unite & divide
+
+#chimera-title {
+	color: @chimera-title-color;
+}
+
+// Utilities
+.u-stretch {
+	.flexParent();
+
+	> .u-child {
+		.flexChild(none);
+	}
+}

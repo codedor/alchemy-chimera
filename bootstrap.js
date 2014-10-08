@@ -27,6 +27,11 @@ var options = {
 // Inject the user-overridden options
 alchemy.plugins.chimera = Object.assign(options, alchemy.plugins.chimera);
 
+if (!alchemy.plugins.acl) {
+	alchemy.plugins.acl = {placeholders: {}}
+	log.todo('Acl settings for Chimera');
+}
+
 // Set the acl placeholder variable
 alchemy.plugins.acl.placeholders.chimeraRouteName = alchemy.plugins.chimera.routename;
 
@@ -39,6 +44,10 @@ var viewSettings = {
 	contentblock: options.contentblock,
 	title: options.title
 };
+
+var ChimeraController = Function.inherits('Controller', function ChimeraController(conduit, options) {
+	Controller.call(this, conduit, options);
+});
 
 // Send the acl layout options to the client
 alchemy.hawkejs.on({type: 'viewrender', status: 'begin', client: false}, function onBegin(viewRender) {
