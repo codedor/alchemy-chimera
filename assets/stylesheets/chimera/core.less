@@ -6,6 +6,7 @@
 @gray: #656565;
 @blue: #56BCCF;
 @green: #35C1A3;
+@dark-green: #3AAC91;
 @yellow: #FCCC89;
 @red: #F57D6C;
 @light-gray: #AFAFAF;
@@ -18,6 +19,10 @@
 // From here on the variables have correct names
 @width--pageSidebar: 18rem;
 @color-gray: #656565;
+@color--pageTitle: @green;
+@color--btn-background: @green;
+@color--btn-border: @dark-green;
+@color--btn-text: #FFFFFF;
 
 /**
  * RESETS
@@ -72,7 +77,7 @@ body {
 
 // The first header is semantic container for info, navigation, ...
 .pageSidebar {
-	flex: 1 0 auto; // Turn it into a flex item
+	flex: 1 0 18rem; // Turn it into a flex item
 	order: -1; // Display as first
 	background-color: @nav-bg-color;
 
@@ -186,6 +191,52 @@ body {
 		.fontStyle(larger);
 		.flexChild(0 0 4.2rem);
 		.flexParent();
+	}
+}
+
+.btn--model {
+	height: 2.5rem;
+	display: inline-block;
+	background-color: @color--btn-background;
+	border-bottom: 0.1875rem solid @color--btn-border;
+	padding: 0.625rem 1.562rem;
+	color: @color--btn-text;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: @fontWeight-bold;
+}
+
+.cbx {
+	// Fix inline-label block line-height
+	font-size: 0px;
+
+	// The box should not be selectable itself
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	&-input {
+		display: none;
+	}
+
+	&-label {
+		margin-top: 0.25rem;
+		padding: 0 2.5rem 0 1.25rem;
+	}
+
+	&-span {
+		display: inline-block;
+		width: 1rem;
+		height: 1rem;
+		background: url('/public/chimera/radiobutton.svg') left top no-repeat;
+		background-size: 2rem 1rem;
+	}
+
+	&-input:checked + &-label &-span {
+		background-position: -1.04165rem;
 	}
 }
 

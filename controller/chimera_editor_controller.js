@@ -5,32 +5,65 @@
  * @since         0.2.0
  * @version       0.2.0
  */
-var Editor = Function.inherits('ChimeraController', function ChimeraEditorsController(conduit, options) {
+var Editor = Function.inherits('ChimeraController', function EditorChimeraController(conduit, options) {
 
-	ChimeraEditorsController.super.call(this, conduit, options);
+	this.constructor.super.call(this, conduit, options);
 
 	this.addComponent('paginate');
 
+	this.addAction('model', 'index', {title: 'List'});
+	this.addAction('record', 'edit');
+	this.addAction('record', 'view');
+
 });
+
+
 
 /**
  * The index action
  *
  * @param   {Conduit}   conduit
  */
-Editor.setMethod(function index(conduit, modelName) {
+Editor.setMethod(function index(conduit) {
 
 	var that = this,
+	    modelName = conduit.routeParam('subject'),
 	    model = Model.get(modelName),
 	    chimera = model.behaviours.chimera;
 
-	this.components.paginate.find(model, 'all', function(err, items) {
+	var actionFields = chimera.getActionFields('list'),
+	    general = actionFields.getGroup('general'),
+	    sorted = general.getSorted(false);
 
-		pr(items, true);
+	var fields = [];
 
-		conduit.set('indexItems', items);
-		conduit.set('indexFields', chimera.getIndexFields());
+	for (var i = 0; i < sorted.length; i++) {
+		fields.push(sorted[i].path);
+	}
 
-		that.render('chimera/editor/index');
+	this.components.paginate.find(model, {fields: fields}, function(err, items) {
+
+		actionFields.processRecords('general', model, items, function(err, results) {
+
+			if (err) {
+				pr(err);
+			}
+
+			console.log(results);
+
+			that.conduit.set('fields', general);
+			that.conduit.set('records', results);
+			that.conduit.set('actions', that.getActions());
+			that.conduit.set('modelName', modelName);
+			that.conduit.internal('modelName', modelName);
+			that.conduit.set('pageTitle', modelName.humanize());
+
+			that.render('chimera/editor/index');
+		});
+
+		//conduit.set('indexItems', items);
+		//conduit.set('indexFields', chimera.getIndexFields());
+
+		
 	});
 });

@@ -1,0 +1,34 @@
+@import "chimera/core.less";
+
+@color-text--modelList: @light-gray;
+@color-row--modelList: @lightest-gray;
+
+.pageTitle {
+	color: @color--pageTitle;
+	text-transform: uppercase;
+	line-height: 1.5rem;
+}
+
+.chimeraEditor {
+	margin-top: 1.75rem;
+
+	&-header {
+		align-items: flex-end;
+		margin-bottom: 1rem;
+	}
+}
+
+.modelList {
+	width: 100%;
+	border-collapse: collapse;
+
+	&-record {
+		height: 3rem;
+		text-align: left;
+		color: @color-text--modelList;
+
+		&:nth-child(even) {
+			background-color: @color-row--modelList;
+		}
+	}
+}

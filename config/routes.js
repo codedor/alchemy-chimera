@@ -3,5 +3,10 @@ var chimera = Router.section('chimera', '/' + alchemy.plugins.chimera.routename)
 
 chimera.get('Dashboard', '/', 'ChimeraStatic#dashboard');
 
-chimera.add(['get', 'post'], 'ModelIndex', '/editor/:modelName', 'ChimeraEditor#index');
+chimera.add(['get', 'post'], 'RecordAction', '/:controller/:subject/:action/:id', '{controller}ChimeraController#{action}');
+chimera.add(['get', 'post'], 'ModelAction', '/:controller/:subject/:action', '{controller}ChimeraController#{action}');
+
+//chimera.get('ListAction', '/:controller/:model/:action')
+
+
 chimera.get('PageEditor', '/page_editor', 'ChimeraStatic#pageEditor');
