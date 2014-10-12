@@ -6,16 +6,15 @@
 			<header class="chimeraEditor-header u-stretch">
 				<h1 class="pageTitle u-child"><%= pageTitle %>:</h1>
 				<nav class="u-child">
-					<% Chimera.printActions('model') %>
+					<% Chimera.printActions('model', {className: 'btn-top'}) %>
 				</nav>
 			</header>
 			<table class="modelList">
 				<tr>
 					<th><!-- Radiobuttons --></th>
 					<%
-						iterator = fields.createIterator();
-						while (iterator.hasNext()) {
-							field = iterator.next().value;
+						while (fields.hasNext()) {
+							field = fields.next().value;
 
 							print('<th>');
 							print(field.fieldType.title);
@@ -31,9 +30,6 @@
 						record = item.value;
 						fields = record.fields;
 
-						console.log('Iterator item::')
-						console.log(item);
-
 						print('<tr class="modelList-record">');
 
 						print('<td><div class="cbx">');
@@ -47,18 +43,12 @@
 							print('</td>');
 						}
 						print('<td>');
-						Chimera.printActions('record', record);
+						Chimera.printActions('record', {className: 'btn-inline'}, record);
 						print('</td>');
 						print('</tr>');
 					}
 				%>
 			</table>
-
-
-
-			<% console.log(vars) %>
-			<% console.log('Indexfields', indexFields) %>
-
 			<% /*Pagination.getPageNumber()*/ %>
 		</article>
 	</main>

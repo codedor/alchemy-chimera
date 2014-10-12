@@ -2,6 +2,16 @@
 
 @color-text--modelList: @light-gray;
 @color-row--modelList: @lightest-gray;
+@color-tab--radioTabs: @light-gray;
+
+@color-radioTabs-label--background: @light-gray;
+@color-radioTabs-label--text: #FFFFFF;
+
+@color-radioTabs-label-active--text: @light-gray;
+@color-radioTabs-label-active--background: @lightest-gray;
+
+@color-radioTabs-content--background: @lightest-gray;
+
 
 .pageTitle {
 	color: @color--pageTitle;
@@ -15,6 +25,31 @@
 	&-header {
 		align-items: flex-end;
 		margin-bottom: 1rem;
+	}
+
+	&-fieldGroup {
+		.clearfix();
+		margin-bottom: 1rem;
+	}
+
+	&-fieldLabel {
+		float: left;
+		width: 9rem;
+		text-align: right;
+		margin-right: 1rem;
+		padding-top: 0.375rem;
+	}
+
+	&-fieldWrap {
+		float: left;
+		width: ~"calc(100% - 10rem)";
+	}
+
+	&-input {
+		padding: 0.375rem 0.75rem;
+		border: none;
+		height: 2rem;
+		width: 100%;
 	}
 }
 
@@ -30,5 +65,51 @@
 		&:nth-child(even) {
 			background-color: @color-row--modelList;
 		}
+	}
+}
+
+.radioTabs {
+	.clearfix();
+	.select(none);
+	position: relative;
+
+	&-input {
+		display: none;
+	}
+
+	&-label {
+		float: left;
+	}
+
+	&-title {
+		height: 3.375rem;
+		min-width: 4rem;
+		padding: 1rem;
+		text-transform: uppercase;
+		background-color: @color-radioTabs-label--background;
+		color: @color-radioTabs-label--text;
+		font-weight: @fontWeight-normal;
+		font-size: @fontSize-large;
+	}
+
+	&-input + label &-content {
+		display: none;
+		.select(text);
+	}
+
+	&-input:checked + label &-title {
+		background-color: @color-radioTabs-label-active--background;
+		color: @color-radioTabs-label-active--text;
+	}
+
+	&-input:checked + label &-content {
+		display: block;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 3.375rem;
+
+		padding: 1.5rem;
+		background-color: @color-radioTabs-content--background;
 	}
 }

@@ -194,7 +194,7 @@ body {
 	}
 }
 
-.btn--model {
+.btn-top {
 	height: 2.5rem;
 	display: inline-block;
 	background-color: @color--btn-background;
@@ -211,12 +211,7 @@ body {
 	font-size: 0px;
 
 	// The box should not be selectable itself
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+	.select(none);
 
 	&-input {
 		display: none;

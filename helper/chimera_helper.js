@@ -9,11 +9,12 @@ module.exports = function HawkejsChimera(Hawkejs, Blast) {
 		var that = this,
 		    viewElement;
 
-		viewElement = 'chimera/fields/' + recordValue.field.viewname + '_' + recordValue.field.viewaction;
+		viewElement = [];
 
-		//this.view.print('<pre>Printing element ' + viewElement + '</pre>');
+		viewElement.push('chimera/fields/' + recordValue.field.viewname + '_' + recordValue.field.viewaction);
 
-		//this.view.print('<pre>' + JSON.dry(recordValue, null, 4) +'</pre>');
+		// @todo: hawkejs: allow array of templates
+		//viewElement.push('chimera/fields/default_' + recordValue.field.viewaction);
 
 		this.view.async(function(next) {
 
@@ -43,10 +44,12 @@ module.exports = function HawkejsChimera(Hawkejs, Blast) {
 	 *
 	 * @param    {String}   type   model, list or record
 	 */
-	Chimera.setMethod(function printActions(type, subject) {
+	Chimera.setMethod(function printActions(type, options, subject) {
 
 		var actionData,
 		    routeName,
+		    className,
+		    rOptions,
 		    actions,
 		    action,
 		    view,
@@ -57,6 +60,10 @@ module.exports = function HawkejsChimera(Hawkejs, Blast) {
 
 		if (!type) {
 			throw new TypeError('Invalid action type given');
+		}
+
+		if (options == null) {
+			options = {};
 		}
 
 		view = this.view;
@@ -70,20 +77,36 @@ module.exports = function HawkejsChimera(Hawkejs, Blast) {
 		if (actionData[type] == null) {
 			return;
 		}
+		console.log('\n\nActiondata:\n')
 
 		actions = actionData[type].createIterator();
 
 		while (actions.hasNext()) {
 			action = actions.next().value;
 
+			console.log(action);
+
 			temp = {
 				controller: action.controller,
 				action: action.name,
 				subject: view.internal('modelName'),
-				id: subject.id
+				id: view.internal('recordId') || subject.id
 			};
 
-			view.helpers.Router.printRoute(routeName, temp, {title: action.name, className: 'btn btn--' + type + ' action-' + action.name});
+			className = 'btn btn--' + type + ' action-' + action.name;
+
+			if (options.className) {
+				className += ' ' + options.className;
+			}
+
+			rOptions = {title: action.name, className: className};
+
+			if (action.handleManual) {
+				rOptions.handleManual = true;
+			}
+
+			view.print(' ');
+			view.helpers.Router.printRoute(routeName, temp, rOptions);
 		}
 	});
 };
