@@ -16,23 +16,7 @@ module.exports = function HawkejsChimera(Hawkejs, Blast) {
 		// @todo: hawkejs: allow array of templates
 		//viewElement.push('chimera/fields/default_' + recordValue.field.viewaction);
 
-		this.view.async(function(next) {
-
-			var subRender = new Hawkejs.ViewRender(that.view.hawkejs, true);
-			subRender.execute(viewElement, {data: recordValue}, true);
-
-			subRender.finish(function(err, result) {
-
-				var html;
-
-				html = subRender.blocks[subRender.mainBlock];
-
-				next(null, html);
-			});
-
-		});
-
-		//this.view.implement(viewElement, {data: recordValue});
+		this.view.implement(viewElement, {data: recordValue});
 	});
 
 	/**
