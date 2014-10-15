@@ -1,3 +1,11 @@
 <% start('field') %>
-<%= data.value == null ? '' : data.value %>
+<%
+	dateval = data.value == null ? '' : data.value;
+
+	if (dateval) {
+		print('<time datetime="' + dateval.stripTime().toISOString() + '">');
+		print(dateval.getHours(true).toPaddedString(2) + ':' + dateval.getMinutes().toPaddedString(2));
+		print('</time>');
+	}
+%>
 <% end('field') %>
