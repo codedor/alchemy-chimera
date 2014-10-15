@@ -185,3 +185,39 @@ hawkejs.scene.on({type: 'create', implement: 'chimera/fields/boolean_edit'}, fun
 		$el.data('new-value', $input.is(':checked'));
 	});
 });
+
+hawkejs.scene.on({type: 'create', implement: 'chimera/fields/datetime_edit'}, function editDatetime(el) {
+	applyDateField(el, 'datetime');
+});
+
+hawkejs.scene.on({type: 'create', implement: 'chimera/fields/date_edit'}, function editDate(el) {
+	applyDateField(el, 'date', {time: false});
+});
+
+hawkejs.scene.on({type: 'create', implement: 'chimera/fields/time_edit'}, function editTime(el) {
+	applyDateField(el, 'time', {date: false});
+});
+
+function applyDateField(el, type, options) {
+
+	var $el = $(el),
+	    $wrapper = $('.chimeraEditor-' + type + '-edit', $el),
+	    calender,
+	    value;
+
+	value = $wrapper.data('value');
+
+	if (value != null) {
+		value = new Date(value);
+	}
+
+	options = Object.assign({weekStart: 1, initialValue: value}, options);
+
+	// Apply `rome`
+	calender = rome($wrapper[0], options);
+
+	calender.on('data', function dateChange(dateString) {
+		var newdate = calender.getDate();
+		$el.data('new-value', newdate);
+	});
+}
