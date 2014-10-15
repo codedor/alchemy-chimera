@@ -33,14 +33,7 @@
 						for (i = 0; i < fields.length; i++) {
 
 							console.log(fields[i]);
-							print('<div class="chimeraEditor-fieldGroup">');
-							print('<label class="chimeraEditor-fieldLabel">');
-							print(fields[i].field.fieldType.title);
-							print('</label>');
-							print('<div class="chimeraEditor-fieldWrap">');
 							Chimera.printField(fields[i]);
-							print('</div>');
-							print('</div>');
 						}
 
 						print('</div>');

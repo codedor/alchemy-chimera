@@ -7,16 +7,19 @@ module.exports = function HawkejsChimera(Hawkejs, Blast) {
 	Chimera.setMethod(function printField(recordValue) {
 
 		var that = this,
-		    viewElement;
+		    viewElement,
+		    variables;
 
-		viewElement = [];
+		variables = {
+			data: recordValue,
+			template: {
+				field: recordValue.field.viewname,
+				action: recordValue.field.viewaction,
+				wrapper: recordValue.field.viewwrapper
+			}
+		};
 
-		viewElement.push('chimera/fields/' + recordValue.field.viewname + '_' + recordValue.field.viewaction);
-
-		// @todo: hawkejs: allow array of templates
-		//viewElement.push('chimera/fields/default_' + recordValue.field.viewaction);
-
-		this.view.implement(viewElement, {data: recordValue});
+		this.view.print_element('chimera/field_wrappers/_wrapper', variables);
 	});
 
 	/**

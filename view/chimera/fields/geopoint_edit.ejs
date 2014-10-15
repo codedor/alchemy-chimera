@@ -1,11 +1,12 @@
 <%
-style('//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css');
-script('//cdn.leafletjs.com/leaflet-0.7.3/leaflet.js');
-
 if (data.value && data.value.coordinates) {
 	lat = data.value.coordinates[0];
 	lng = data.value.coordinates[1];
 }
 
 id = 'map-' + Date.now() + '-' + Number.random(0,100);
-%><div id="<%= id %>" class="geopoint-edit" data-lat="<%= lat %>" data-lng="<%= lng %>"></div>
+%>
+<% start('field') %>
+<input type="hidden" name="data.<%= data.field.path %>">
+<div id="<%= id %>" class="geopoint-div geopoint-edit" data-lat="<%= lat %>" data-lng="<%= lng %>"></div>
+<% end('field') %>

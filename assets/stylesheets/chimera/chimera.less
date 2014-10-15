@@ -51,6 +51,56 @@
 		height: 2rem;
 		width: 100%;
 	}
+
+	&-boolean {
+		width: 3rem;
+		text-align: center;
+		color: white;
+	}
+}
+
+.boolean-false {
+	background-color: @red;
+}
+
+.boolean-true {
+	background-color: @green;
+}
+
+.chimeraEditor-boolean-text, .chimeraEditor-boolean-list {
+	.select(none);
+	transition: all 0.3s ease;
+	width: 3rem;
+	line-height: 2rem;
+	height: 2rem;
+}
+
+.chimeraEditor-boolean-text {
+	cursor: pointer;
+}
+
+.chimeraEditor-boolean-list {
+	cursor: default;
+}
+
+.chimeraEditor-edit-boolean {
+	display: none;
+
+	&:checked + .chimeraEditor-boolean-text {
+		background-color: @green;
+
+		.u-no {
+			display: none;
+		}
+	}
+
+	&:not(:checked) + .chimeraEditor-boolean-text {
+		background-color: @red;
+
+		.u-yes {
+			display: none;
+		}
+	}
 }
 
 .modelList {
@@ -114,6 +164,10 @@
 	}
 }
 
-.geopoint-view {
+.geopoint-list {
 	height: 6rem;
+}
+
+.geopoint-edit {
+	height: 18rem;
 }
