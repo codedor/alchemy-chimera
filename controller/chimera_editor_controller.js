@@ -12,6 +12,10 @@ var Editor = Function.inherits('ChimeraController', function EditorChimeraContro
 	this.addComponent('paginate');
 
 	this.addAction('model', 'index', {title: 'List'});
+	this.addAction('model', 'add');
+
+	this.addAction('draft', 'save', {handleManual: true});
+
 	this.addAction('record', 'edit');
 	this.addAction('record', 'view');
 	this.addAction('record', 'save', {handleManual: true});
@@ -61,6 +65,41 @@ Editor.setMethod(function index(conduit) {
 });
 
 /**
+ * The add action
+ *
+ * @param   {Conduit}   conduit
+ */
+Editor.setMethod(function add(conduit) {
+
+	var that = this,
+	    modelName = conduit.routeParam('subject'),
+	    model = Model.get(modelName),
+	    chimera = model.behaviours.chimera;
+
+	var actionFields = chimera.getActionFields('edit'),
+	    groups = actionFields.groups.clone();
+
+	var item = model.compose(),
+	    id = item._id;
+
+	actionFields.processRecords(model, [item], function groupedRecords(err, groups) {
+
+		if (err) {
+			pr(err);
+		}
+
+		that.set('groups', groups);
+		that.set('actions', that.getActions());
+		that.set('modelName', modelName);
+		that.set('pageTitle', modelName.humanize());
+		that.internal('modelName', modelName);
+		that.internal('recordId', id);
+
+		that.render('chimera/editor/add');
+	});
+});
+
+/**
  * The edit action
  *
  * @param   {Conduit}   conduit
@@ -104,41 +143,37 @@ Editor.setMethod(function edit(conduit) {
 Editor.setMethod(function save(conduit) {
 
 	var that = this,
-	    modelName = conduit.routeParam('subject'),
-	    model = Model.get(modelName),
-	    chimera = model.behaviours.chimera,
-	    id = conduit.routeParam('id'),
-	    data = conduit.body.data,
-	    record;
+	    actionFields,
+	    modelName,
+	    chimera,
+	    options,
+	    groups,
+	    record,
+	    model,
+	    data,
+	    id;
 
-	var actionFields = chimera.getActionFields('edit'),
-	    groups = actionFields.groups.clone();
+	modelName = conduit.routeParam('subject');
+	model = Model.get(modelName);
+
+	chimera = model.behaviours.chimera;
+	data = conduit.body.data;
+	id = conduit.routeParam('id');
+
+	actionFields = chimera.getActionFields('edit');
+	groups = actionFields.groups.clone();
 
 	record = data[modelName.classify()];
 	record._id = alchemy.castObjectId(id);
 
-	pr(record, true);
+	options = {};
 
-	model.save(record, function afterSave(err) {
+	// Force create, even though an _id could be given
+	if (conduit.body.create === true) {
+		options.create = true;
+	}
+
+	model.save(record, options, function afterSave(err) {
 		that.edit(conduit);
-	});
-
-	return;
-
-	model.find('first', {conditions: {_id: alchemy.castObjectId(id)}}, function(err, items) {
-
-		actionFields.processRecords(model, items, function groupedRecords(err, groups) {
-
-			if (err) {
-				pr(err);
-			}
-
-			that.set('groups', groups);
-			that.set('actions', that.getActions());
-			that.set('modelName', modelName);
-			that.set('pageTitle', modelName.humanize());
-
-			that.render('chimera/editor/edit');
-		});
 	});
 });

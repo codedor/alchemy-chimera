@@ -1,16 +1,49 @@
 hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/edit'}, applySave);
+hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/add'}, applySave);
 hawkejs.scene.on({type: 'create', template: 'chimera/field_wrappers/geopoint_list'}, listGeopoint);
 hawkejs.scene.on({type: 'create', implement: 'chimera/fields/geopoint_edit'}, editGeopoint);
 
-function applySave() {
+function applySave(el) {
 
-	var $editor = $('.chimeraEditor').first(),
-	    $save = $('.action-save', $editor);
+	var preventDuplicate,
+	    variables,
+	    isDraft,
+	    $editor,
+	    $save;
+
+	variables = this.filter.variables || {};
+	isDraft = this.filter.implement === 'chimera/editor/add';
+
+	$editor = $('.chimeraEditor', el).first();
+	$save = $('.action-save', $editor);
 
 	$save.click(function onClick(e) {
 
-		var $fieldwrappers = $('.chimeraEditor-fieldWrap>x-hawkejs'),
-		    obj = {};
+		var $fieldwrappers,
+		    data,
+		    obj;
+
+		if (preventDuplicate === true) {
+			throw new Error('Already pressed save button');
+		}
+
+		$fieldwrappers = $('.chimeraEditor-fieldWrap>x-hawkejs', $editor);
+		data = {};
+		obj = {
+			create: isDraft,
+			data: data
+		};
+
+		if (isDraft) {
+			// Set the initial passed-along-by-server values first
+			Object.each(variables.groups, function eachGroup(group, name) {
+				group[0].fields.forEach(function eachField(entry) {
+					if (entry.value != null) {
+						Object.setPath(data, entry.field.path, entry.value);
+					}
+				});
+			});
+		}
 
 		$fieldwrappers.each(function() {
 
@@ -29,6 +62,7 @@ function applySave() {
 		});
 
 		e.preventDefault();
+		preventDuplicate = true;
 	});
 }
 
@@ -62,6 +96,11 @@ function editGeopoint(el, block) {
 	};
 
 	result = applyGeopoint(el, options);
+
+	if (!result) {
+		throw new Error('Map wrapper could not be created');
+	}
+
 	map = result[0];
 	marker = result[1];
 
@@ -82,8 +121,7 @@ function applyGeopoint(el, _options) {
 	    map;
 
 	if (wrapper == null) {
-		//Wrapper element not found, can't create map
-		return;
+		throw new Error('Wrapper element not found, can\'t create map');
 	}
 
 	lat = parseFloat(wrapper.getAttribute('data-lat'));
@@ -91,7 +129,8 @@ function applyGeopoint(el, _options) {
 
 	// Skip this map if the coordinates are not numbers
 	if (!isFinite(lat) || !isFinite(lng)) {
-		return;
+		lat = 51.044821;
+		lng = 3.738785;
 	}
 
 	options = {
@@ -127,12 +166,22 @@ function applyGeopoint(el, _options) {
 	return [map, marker];
 }
 
-hawkejs.scene.on({type: 'create', implement: 'chimera/fields/default_edit'}, function(el) {
+hawkejs.scene.on({type: 'create', implement: 'chimera/fields/default_edit'}, function editDefault(el) {
 
 	var $el = $(el),
 	    $input = $('.chimeraEditor-input', $el);
 
 	$input.change(function onDefaultEdit() {
 		$el.data('new-value', $input.val());
+	});
+});
+
+hawkejs.scene.on({type: 'create', implement: 'chimera/fields/boolean_edit'}, function editBoolean(el) {
+
+	var $el = $(el),
+	    $input = $('.chimeraEditor-input', $el);
+
+	$input.change(function onBooleanEdit() {
+		$el.data('new-value', $input.is(':checked'));
 	});
 });

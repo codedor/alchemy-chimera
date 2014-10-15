@@ -64,7 +64,6 @@ module.exports = function HawkejsChimera(Hawkejs, Blast) {
 		if (actionData[type] == null) {
 			return;
 		}
-		console.log('\n\nActiondata:\n')
 
 		actions = actionData[type].createIterator();
 
