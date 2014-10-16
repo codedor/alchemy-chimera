@@ -1,3 +1,6 @@
 <% start('field') %>
-<input name="data.<%= data.field.path %>" class="chimeraEditor-input" value="<%= data.value || '' %>" id="field-<%= data.field.path %>" type="text">
+<input type="hidden" name="data.<%= data.field.path %>" value="<%= data.value || '' %>">
+<div id="field-<%= data.field.path %>" class="medium-editor me-<%= data.field.path %>" data-fieldpath="<%= data.field.path %>" contenteditable="true">
+	<%= data.value || '' %>
+</div>
 <% end('field') %>

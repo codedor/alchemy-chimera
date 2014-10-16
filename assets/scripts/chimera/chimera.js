@@ -3,6 +3,7 @@ hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/ad
 hawkejs.scene.on({type: 'create', template: 'chimera/field_wrappers/geopoint_list'}, listGeopoint);
 hawkejs.scene.on({type: 'create', implement: 'chimera/fields/geopoint_view'}, listGeopoint);
 hawkejs.scene.on({type: 'create', implement: 'chimera/fields/geopoint_edit'}, editGeopoint);
+hawkejs.scene.on({type: 'create', implement: 'chimera/fields/text_edit'}, editText);
 
 function applySave(el) {
 
@@ -65,6 +66,24 @@ function applySave(el) {
 		e.preventDefault();
 		preventDuplicate = true;
 	});
+}
+
+function editText(el, block) {
+
+	var $el = $(el),
+	    name,
+	    editor, id;
+
+	name = '.medium-editor';
+	editor = new MediumEditor(name);
+	id = el.getElementsByClassName('medium-editor')[0].id;
+
+	$(name).on('input', function onTextEdit(){
+		if($(this)[0].id === id){
+			$el.data('new-value', $(this)[0].innerHTML);
+		}
+	});
+
 }
 
 function listGeopoint(el, block) {
