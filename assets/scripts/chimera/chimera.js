@@ -75,8 +75,11 @@ function editText(el, block) {
 	    editor, id;
 
 	name = '.medium-editor';
-	editor = new MediumEditor(name);
 	id = el.getElementsByClassName('medium-editor')[0].id;
+	
+	editor = new MediumEditor(name, {
+		buttons: ['bold', 'italic', 'underline', 'strikethrough', 'anchor', 'image', 'header1', 'header2', 'quote', 'pre']
+	});
 
 	$(name).on('input', function onTextEdit(){
 		if($(this)[0].id === id){
