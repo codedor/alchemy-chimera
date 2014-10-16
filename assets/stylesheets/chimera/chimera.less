@@ -57,6 +57,16 @@
 		text-align: center;
 		color: white;
 	}
+
+	&-actions--inline {
+		text-align: center;
+		width: 12rem;
+
+		// @todo: temporary fix to remove save action from listing
+		.action-save {
+			display: none;
+		}
+	}
 }
 
 .boolean-false {
@@ -168,6 +178,6 @@
 	height: 6rem;
 }
 
-.geopoint-edit {
+.geopoint-view, .geopoint-edit {
 	height: 18rem;
 }

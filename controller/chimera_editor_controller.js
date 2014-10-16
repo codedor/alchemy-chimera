@@ -136,6 +136,44 @@ Editor.setMethod(function edit(conduit) {
 });
 
 /**
+ * The view action
+ *
+ * @todo: code is mostly alike to edit, merge together
+ *
+ * @param   {Conduit}   conduit
+ */
+Editor.setMethod(function view(conduit) {
+
+	var that = this,
+	    modelName = conduit.routeParam('subject'),
+	    model = Model.get(modelName),
+	    chimera = model.behaviours.chimera,
+	    id = conduit.routeParam('id');
+
+	var actionFields = chimera.getActionFields('view'),
+	    groups = actionFields.groups.clone();
+
+	model.find('first', {conditions: {_id: alchemy.castObjectId(id)}}, function(err, items) {
+
+		actionFields.processRecords(model, items, function groupedRecords(err, groups) {
+
+			if (err) {
+				pr(err);
+			}
+
+			that.set('groups', groups);
+			that.set('actions', that.getActions());
+			that.set('modelName', modelName);
+			that.set('pageTitle', modelName.humanize());
+			that.internal('modelName', modelName);
+			that.internal('recordId', id);
+
+			that.render('chimera/editor/view');
+		});
+	});
+});
+
+/**
  * The save action
  *
  * @param   {Conduit}   conduit

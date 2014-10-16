@@ -1,6 +1,7 @@
 hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/edit'}, applySave);
 hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/add'}, applySave);
 hawkejs.scene.on({type: 'create', template: 'chimera/field_wrappers/geopoint_list'}, listGeopoint);
+hawkejs.scene.on({type: 'create', implement: 'chimera/fields/geopoint_view'}, listGeopoint);
 hawkejs.scene.on({type: 'create', implement: 'chimera/fields/geopoint_edit'}, editGeopoint);
 
 function applySave(el) {
@@ -119,7 +120,7 @@ function applyGeopoint(el, _options) {
 	    lat,
 	    lng,
 	    map;
-
+console.log(el)
 	if (wrapper == null) {
 		throw new Error('Wrapper element not found, can\'t create map');
 	}
