@@ -70,8 +70,6 @@ module.exports = function HawkejsChimera(Hawkejs, Blast) {
 		while (actions.hasNext()) {
 			action = actions.next().value;
 
-			console.log(action);
-
 			temp = {
 				controller: action.controller,
 				action: action.name,
