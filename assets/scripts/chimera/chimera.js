@@ -274,3 +274,7 @@ function sidebarCollapse(el) {
 		$(childclass).toggleClass('hidden');
 	}
 }
+
+$(document).ready(function() {
+	vex.defaultOptions.className = 'vex-theme-flat-attack';
+});

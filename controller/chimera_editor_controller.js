@@ -7,7 +7,7 @@
  */
 var Editor = Function.inherits('ChimeraController', function EditorChimeraController(conduit, options) {
 
-	this.constructor.super.call(this, conduit, options);
+	EditorChimeraController.super.call(this, conduit, options);
 
 	this.addComponent('paginate');
 
@@ -29,15 +29,6 @@ var Editor = Function.inherits('ChimeraController', function EditorChimeraContro
  */
 Editor.setMethod(function index(conduit) {
 	return this.listing(conduit, 'list', 'index');
-});
-
-/**
- * The gallery action
- *
- * @param   {Conduit}   conduit
- */
-Editor.setMethod(function gallery(conduit) {
-	return this.listing(conduit, 'gallery');
 });
 
 /**
@@ -68,10 +59,14 @@ Editor.setMethod(function listing(conduit, type, view) {
 
 	this.components.paginate.find(model, {fields: fields}, function(err, items) {
 
+		if (err) {
+			return conduit.error(err);
+		}
+
 		actionFields.processRecords('general', model, items, function groupedRecords(err, results) {
 
 			if (err) {
-				pr(err);
+				return conduit.error(err);
 			}
 
 			that.conduit.set('fields', general);
