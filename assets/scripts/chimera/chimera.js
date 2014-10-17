@@ -244,3 +244,33 @@ function applyDateField(el, type, options) {
 		$el.data('new-value', newdate);
 	});
 }
+
+
+hawkejs.scene.on({type: 'create', implement: 'chimera/sidebar'}, sidebarCollapse);
+
+function sidebarCollapse(el) {
+
+	var childclass = '';
+
+	// Open active section
+	toggleMenu($('.sideNav .active').parent().parent().prev());
+	
+	// Open clicked section
+	$('.section').on('click', function onMenuParentClick(e){
+		e.preventDefault();
+		toggleMenu($(this));
+	}); 
+
+	// Handle opening/closing of sections
+	function toggleMenu(section){
+		childclass = '.'+section.data('childclass');
+
+		if(section.attr('data-after') == '\u25B6'){
+			section.attr('data-after', '\u25BC');
+		} else {
+			section.attr('data-after', '\u25B6');
+		}
+
+		$(childclass).toggleClass('hidden');
+	}
+}

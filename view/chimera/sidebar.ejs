@@ -1,33 +1,21 @@
 <nav class="sideNav">
 	<ul class="sideNav-collection">
-		<li class="sideNav-link is-parent">
-			<a class="sideNav-text" href="/">Administration</a>
-		</li>
-		<li class="sideNav-link is-parent">
-			<a class="sideNav-text" href="/">Website</a>
-			<ul class="sideNav-collection is-child">
-				<li class="sideNav-link">
-					<a class="sideNav-text" href="/chimera/editor/pages">Paginas</a>
-				</li>
-				<li class="sideNav-link">
-					<a class="sideNav-text" href="/">Events</a>
-				</li>
-				<li class="sideNav-link">
-					<a class="sideNav-text" href="/">Nieuws</a>
-				</li>
-				<li class="sideNav-link">
-					<a class="sideNav-text" href="/">Spotlights</a>
-				</li>
-				<li class="sideNav-link">
-					<a class="sideNav-text" href="/">Blocks</a>
-				</li>
-				<li class="sideNav-link">
-					<a class="sideNav-text" href="/">Media</a>
-				</li>
-			</ul>
-		</li>
-		<li class="sideNav-link">
-			<a class="sideNav-text" href="/">Extras</a>
-		</li>
+		<% for(var section_name in sections){ %>
+			<li class="sideNav-link is-parent">
+				<a class="sideNav-text section" href="#" data-childclass="<%= section_name.tableize() %>" data-after="&#9654;"><%= section_name %></a>
+				<ul class="sideNav-collection is-child <%= section_name.tableize() %> hidden">
+					<% for(var model_name in sections[section_name]){ %>
+						<% model = sections[section_name][model_name]; %>
+						<li class="sideNav-link">
+							<% if(urlparams.controller == model.parameters.controller && urlparams.subject == model.parameters.subject){ %>
+								<% Router.printRoute(model.type, model.parameters, {title: model.title, className: 'sideNav-text active'}) %>
+							<% } else { %>
+								<% Router.printRoute(model.type, model.parameters, {title: model.title, className: 'sideNav-text'}) %>
+							<% } %>
+						</li>
+					<% } %>
+				</ul>
+			</li>
+		<% } %>
 	</ul>
 </nav>

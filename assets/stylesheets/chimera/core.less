@@ -107,6 +107,9 @@ body {
 // Side navigation component
 .sideNav {
 	flex: 1 0 auto;
+	.active {
+		background-color: @green;
+	}
 
 	&-collection {
 		display: flex;
@@ -122,6 +125,10 @@ body {
 			.sideNav-link > .sideNav-text {
 				padding-left: 3.9rem;
 			}
+		}
+		
+		&.hidden {
+			display: none;
 		}
 	}
 
@@ -142,7 +149,7 @@ body {
 
 		&.is-parent {
 			>.sideNav-text::after {
-				content: "\25B6"; // Right arrow & "\25BC"; // Down arrow
+				content: attr(data-after);
 				.fontStyle(small, normal);
 				position: absolute;
 				right: 1.4rem;
