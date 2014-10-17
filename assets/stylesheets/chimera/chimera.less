@@ -113,6 +113,32 @@
 	}
 }
 
+.chimeraGallery {
+	.flexParent(row);
+
+	&-card {
+		width: 22rem;
+		height: 19rem;
+		padding: 1.25rem;
+		margin-bottom: 1.25rem;
+		background-color: @lightest-gray;
+	}
+
+	&-figure {
+		height: 12rem;
+		background-size: cover !important;
+		background-position: 50% !important;
+	}
+
+	&-actions {
+		height: 4.5rem;
+	}
+}
+
+.chimeraGallery > x-hawkejs {
+	.flexChild(0 0 auto);
+}
+
 .modelList {
 	width: 100%;
 	border-collapse: collapse;

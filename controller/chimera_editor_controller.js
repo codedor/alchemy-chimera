@@ -28,13 +28,35 @@ var Editor = Function.inherits('ChimeraController', function EditorChimeraContro
  * @param   {Conduit}   conduit
  */
 Editor.setMethod(function index(conduit) {
+	return this.listing(conduit, 'list', 'index');
+});
+
+/**
+ * The gallery action
+ *
+ * @param   {Conduit}   conduit
+ */
+Editor.setMethod(function gallery(conduit) {
+	return this.listing(conduit, 'gallery');
+});
+
+/**
+ * The generic listing method
+ *
+ * @param   {Conduit}   conduit
+ */
+Editor.setMethod(function listing(conduit, type, view) {
 
 	var that = this,
 	    modelName = conduit.routeParam('subject'),
 	    model = Model.get(modelName),
 	    chimera = model.behaviours.chimera;
 
-	var actionFields = chimera.getActionFields('list'),
+	if (view == null) {
+		view = type;
+	}
+
+	var actionFields = chimera.getActionFields(type),
 	    general = actionFields.getGroup('general'),
 	    sorted = general.getSorted(false);
 
@@ -59,7 +81,7 @@ Editor.setMethod(function index(conduit) {
 			that.conduit.internal('modelName', modelName);
 			that.conduit.set('pageTitle', modelName.humanize());
 
-			that.render('chimera/editor/index');
+			that.render('chimera/editor/' + view);
 		});
 	});
 });

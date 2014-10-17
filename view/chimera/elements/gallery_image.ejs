@@ -1,0 +1,8 @@
+<div class="chimeraGallery-card">
+	<figure class="chimeraGallery-figure" style="background: url('/media/thumbnail/<%= record.id %>');">
+		<% console.log(record) %>
+	</figure>
+	<div class="chimeraGallery-actions">
+		<% Chimera.printActions('record', {className: 'btn-inline'}, record); %>
+	</div>
+</div>
