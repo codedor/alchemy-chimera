@@ -7,8 +7,10 @@ module.exports = function HawkejsChimera(Hawkejs, Blast) {
 	Chimera.setMethod(function printField(recordValue) {
 
 		var that = this,
+		    placeholder,
 		    viewElement,
-		    variables;
+		    variables,
+		    fblock;
 
 		variables = {
 			data: recordValue,
@@ -19,7 +21,17 @@ module.exports = function HawkejsChimera(Hawkejs, Blast) {
 			}
 		};
 
-		this.view.print_element('chimera/field_wrappers/_wrapper', variables);
+		// Print the placeholder element
+		placeholder = this.view.print_element('chimera/field_wrappers/_wrapper', variables);
+
+		// Add the container classname to the wrapper element
+		placeholder.element.addClass('chimeraField-container');
+
+		// Create the 'fields' blockbuffer
+		fblock = placeholder.renderer.createBlock('field');
+
+		// Add the intake classname to the field wrapper element
+		fblock.attributes['class'] = 'chimeraField-intake';
 	});
 
 	/**

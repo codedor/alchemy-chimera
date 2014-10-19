@@ -1,3 +1,81 @@
+hawkejs.scene.on({type: 'set', template: 'chimera/field_wrappers/_wrapper'}, function applyField(element, variables) {
+
+	var intake = element.getElementsByClassName('chimeraField-intake')[0],
+	    input = intake.getElementsByTagName('input')[0]
+
+	setTimeout(function() {
+		console.log('Element: ' + (input ? input.getAttribute('name') : intake), variables);
+	}, 4);
+
+	new ChimeraField(element, variables);
+});
+
+
+var ChimeraField = Function.inherits(function ChimeraField(container, variables) {
+
+	// The container element, with the 'chimeraField-container' CSS class
+	this.container = container;
+
+	// The variables passed to the rendering element
+	this.variables = variables;
+
+	// The intake x-hawkejs element
+	this.intake = $(container.getElementsByClassName('chimeraField-intake')[0]);
+
+	this.init();
+});
+
+/**
+ * Set the new value for this field.
+ * Only new values will be sent to the server on save.
+ *
+ * @param    {Mixed}   value
+ */
+ChimeraField.setMethod(function setValue(value) {
+	this.intake.data('new-value', value);
+});
+
+/**
+ * Initialize the field
+ *
+ * @param    {Mixed}   value
+ */
+ChimeraField.setMethod(function init() {
+
+	var that = this,
+	    $input = $('.chimeraField-prime', this.intake);
+
+	$input.change(function onDefaultEdit() {
+		console.log('New value: ' + $input.val())
+		that.setValue($input.val());
+	});
+	
+});
+
+function editText(el, block) {
+
+	var $el = $(el),
+	    name,
+	    editor, id;
+
+	name = '.medium-editor';
+	id = el.getElementsByClassName('medium-editor')[0].id;
+	
+	editor = new MediumEditor(name, {
+		buttons: ['bold', 'italic', 'underline', 'strikethrough', 'anchor', 'image', 'header1', 'header2', 'quote', 'pre']
+	});
+
+	$(name).on('input', function onTextEdit(){
+		if($(this)[0].id === id){
+			$el.data('new-value', $(this)[0].innerHTML);
+		}
+	});
+
+}
+
+
+// Old code
+
 hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/edit'}, applySave);
 hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/add'}, applySave);
 hawkejs.scene.on({type: 'create', template: 'chimera/field_wrappers/geopoint_list'}, listGeopoint);
@@ -59,35 +137,18 @@ function applySave(el) {
 			}
 		});
 
-		hawkejs.scene.openUrl($save.attr('href'), null, obj, function(err, result) {
-			console.log(err, result);
-		});
+		console.log(obj)
+
+		// hawkejs.scene.openUrl($save.attr('href'), null, obj, function(err, result) {
+		// 	console.log(err, result);
+		// });
 
 		e.preventDefault();
 		preventDuplicate = true;
 	});
 }
 
-function editText(el, block) {
 
-	var $el = $(el),
-	    name,
-	    editor, id;
-
-	name = '.medium-editor';
-	id = el.getElementsByClassName('medium-editor')[0].id;
-	
-	editor = new MediumEditor(name, {
-		buttons: ['bold', 'italic', 'underline', 'strikethrough', 'anchor', 'image', 'header1', 'header2', 'quote', 'pre']
-	});
-
-	$(name).on('input', function onTextEdit(){
-		if($(this)[0].id === id){
-			$el.data('new-value', $(this)[0].innerHTML);
-		}
-	});
-
-}
 
 function listGeopoint(el, block) {
 
@@ -250,13 +311,15 @@ hawkejs.scene.on({type: 'create', implement: 'chimera/sidebar'}, sidebarCollapse
 
 function sidebarCollapse(el) {
 
-	var childclass = '';
+	var childclass = '',
+	    $active = $(el.querySelectorAll('.sideNav .active')),
+	    $section = $('.section');
 
 	// Open active section
-	toggleMenu($('.sideNav .active').parent().parent().prev());
+	toggleMenu($active.parent().parent().prev());
 	
 	// Open clicked section
-	$('.section').on('click', function onMenuParentClick(e){
+	$section.on('click', function onMenuParentClick(e){
 		e.preventDefault();
 		toggleMenu($(this));
 	}); 

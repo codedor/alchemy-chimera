@@ -134,11 +134,23 @@ Editor.setMethod(function edit(conduit) {
 
 	model.find('first', {conditions: {_id: alchemy.castObjectId(id)}}, function(err, items) {
 
+		if (err) {
+			return conduit.error(err);
+		}
+
+		if (!items.length) {
+			return conduit.notFound();
+		}
+
 		actionFields.processRecords(model, items, function groupedRecords(err, groups) {
 
 			if (err) {
-				pr(err);
+				return conduit.error(err);
 			}
+
+			pr('Group fields:')
+			console.log(groups.general[0].fields);
+			//console.log(groups.general[0].fields[1].field)
 
 			that.set('groups', groups);
 			that.set('actions', that.getActions());
