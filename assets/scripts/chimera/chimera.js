@@ -1,16 +1,17 @@
 hawkejs.scene.on({type: 'set', template: 'chimera/field_wrappers/_wrapper'}, function applyField(element, variables) {
 
 	var intake = element.getElementsByClassName('chimeraField-intake')[0],
-	    input = intake.getElementsByTagName('input')[0]
+	    input = intake.getElementsByTagName('input')[0],
+	    viewname;
 
-	setTimeout(function() {
-		console.log('Element: ' + (input ? input.getAttribute('name') : intake), variables);
-	}, 4);
+	viewname = variables.data.field.viewname;
 
-	new ChimeraField(element, variables);
+	ChimeraField.create(viewname, element, variables);
 });
 
-
+/**
+ * The client side ChimeraField class
+ */
 var ChimeraField = Function.inherits(function ChimeraField(container, variables) {
 
 	// The container element, with the 'chimeraField-container' CSS class
@@ -22,7 +23,33 @@ var ChimeraField = Function.inherits(function ChimeraField(container, variables)
 	// The intake x-hawkejs element
 	this.intake = $(container.getElementsByClassName('chimeraField-intake')[0]);
 
+	// Set the value path
+	this.intake.data('path', variables.data.field.path);
+
 	this.init();
+});
+
+/**
+ * Create a ChimeraField instance
+ *
+ * @param    {String}   name
+ */
+ChimeraField.setStatic(function create(viewname, container, variables) {
+
+	var className,
+	    Classes,
+	    fnc;
+
+	Classes = __Protoblast.Classes;
+	className = viewname.classify() + 'ChimeraField';
+
+	if (Classes[className]) {
+		fnc = Classes[className];
+	} else {
+		fnc = ChimeraField;
+	}
+
+	return new fnc(container, variables);
 });
 
 /**
@@ -52,6 +79,83 @@ ChimeraField.setMethod(function init() {
 	
 });
 
+hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/edit'}, applySave);
+hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/add'}, applySave);
+
+/**
+ * Apply save functionality when clicking on the "save" button
+ */
+function applySave(el, variables) {
+
+	var preventDuplicate,
+	    variables,
+	    isDraft,
+	    $editor,
+	    $save;
+
+	isDraft = this.filter.implement === 'chimera/editor/add';
+
+	$editor = $('.chimeraEditor', el).first();
+	$save = $('.action-save', $editor);
+
+	$save.click(function onClick(e) {
+
+		var $fieldwrappers,
+		    data,
+		    obj;
+
+		if (preventDuplicate === true) {
+			throw new Error('Already pressed save button');
+		}
+
+		$intakes = $('.chimeraField-intake', $editor);
+		data = {};
+		obj = {
+			create: isDraft,
+			data: data
+		};
+
+		if (isDraft) {
+			// Set the initial passed-along-by-server values first
+			Object.each(variables.groups, function eachGroup(group, name) {
+				group[0].fields.forEach(function eachField(entry) {
+					if (entry.value != null) {
+						Object.setPath(data, entry.field.path, entry.value);
+					}
+				});
+			});
+		}
+
+		$intakes.each(function() {
+
+			var $wrapper = $(this),
+			    value = $wrapper.data('new-value');
+
+			if (value != null) {
+				Object.setPath(obj, 'data.' + $wrapper.data('path'), value);
+			}
+		});
+
+		console.log(obj)
+
+		hawkejs.scene.openUrl($save.attr('href'), null, obj, function(err, result) {
+			console.log(err, result);
+		});
+
+		e.preventDefault();
+		preventDuplicate = true;
+	});
+}
+
+/**
+ * Old code
+ */
+
+hawkejs.scene.on({type: 'create', template: 'chimera/field_wrappers/geopoint_list'}, listGeopoint);
+hawkejs.scene.on({type: 'create', implement: 'chimera/fields/geopoint_view'}, listGeopoint);
+hawkejs.scene.on({type: 'create', implement: 'chimera/fields/geopoint_edit'}, editGeopoint);
+hawkejs.scene.on({type: 'create', implement: 'chimera/fields/text_edit'}, editText);
+
 function editText(el, block) {
 
 	var $el = $(el),
@@ -72,82 +176,6 @@ function editText(el, block) {
 	});
 
 }
-
-
-// Old code
-
-hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/edit'}, applySave);
-hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/add'}, applySave);
-hawkejs.scene.on({type: 'create', template: 'chimera/field_wrappers/geopoint_list'}, listGeopoint);
-hawkejs.scene.on({type: 'create', implement: 'chimera/fields/geopoint_view'}, listGeopoint);
-hawkejs.scene.on({type: 'create', implement: 'chimera/fields/geopoint_edit'}, editGeopoint);
-hawkejs.scene.on({type: 'create', implement: 'chimera/fields/text_edit'}, editText);
-
-function applySave(el) {
-
-	var preventDuplicate,
-	    variables,
-	    isDraft,
-	    $editor,
-	    $save;
-
-	variables = this.filter.variables || {};
-	isDraft = this.filter.implement === 'chimera/editor/add';
-
-	$editor = $('.chimeraEditor', el).first();
-	$save = $('.action-save', $editor);
-
-	$save.click(function onClick(e) {
-
-		var $fieldwrappers,
-		    data,
-		    obj;
-
-		if (preventDuplicate === true) {
-			throw new Error('Already pressed save button');
-		}
-
-		$fieldwrappers = $('.chimeraEditor-fieldWrap>x-hawkejs', $editor);
-		data = {};
-		obj = {
-			create: isDraft,
-			data: data
-		};
-
-		if (isDraft) {
-			// Set the initial passed-along-by-server values first
-			Object.each(variables.groups, function eachGroup(group, name) {
-				group[0].fields.forEach(function eachField(entry) {
-					if (entry.value != null) {
-						Object.setPath(data, entry.field.path, entry.value);
-					}
-				});
-			});
-		}
-
-		$fieldwrappers.each(function() {
-
-			var $wrapper = $(this),
-			    value = $wrapper.data('new-value'),
-			    $field;
-
-			if (value != null) {
-				$field = $('input', $wrapper);
-				Object.setPath(obj, $field.attr('name'), value);
-			}
-		});
-
-		console.log(obj)
-
-		// hawkejs.scene.openUrl($save.attr('href'), null, obj, function(err, result) {
-		// 	console.log(err, result);
-		// });
-
-		e.preventDefault();
-		preventDuplicate = true;
-	});
-}
-
 
 
 function listGeopoint(el, block) {
