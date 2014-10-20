@@ -10,9 +10,20 @@ hawkejs.scene.on({type: 'set', template: 'chimera/field_wrappers/_wrapper'}, fun
 });
 
 /**
- * The client side ChimeraField class
+ * The client side base ChimeraField class
+ *
+ * @constructor
+ *
+ * @author   Jelle De Loecker   <jelle@kipdola.be>
+ * @since    1.0.0
+ * @version  1.0.0
+ *
+ * @param    {DOMElement}   container
+ * @param    {Object}       variables
  */
 var ChimeraField = Function.inherits(function ChimeraField(container, variables) {
+
+	var action;
 
 	// The container element, with the 'chimeraField-container' CSS class
 	this.container = container;
@@ -20,13 +31,24 @@ var ChimeraField = Function.inherits(function ChimeraField(container, variables)
 	// The variables passed to the rendering element
 	this.variables = variables;
 
+	// Field value
+	this.value = variables.data.value;
+
+	// Field data
+	this.field = variables.data.field;
+
+	// Action type
+	this.action = this.field.viewaction;
+
 	// The intake x-hawkejs element
 	this.intake = $(container.getElementsByClassName('chimeraField-intake')[0]);
 
 	// Set the value path
 	this.intake.data('path', variables.data.field.path);
 
-	this.init();
+	action = String(this.action).classify();
+
+	this['init' + action]();
 });
 
 /**
@@ -63,21 +85,111 @@ ChimeraField.setMethod(function setValue(value) {
 });
 
 /**
- * Initialize the field
+ * Initialize the field in the edit action
  *
  * @param    {Mixed}   value
  */
-ChimeraField.setMethod(function init() {
+ChimeraField.setMethod(function initEdit() {
 
 	var that = this,
 	    $input = $('.chimeraField-prime', this.intake);
 
 	$input.change(function onDefaultEdit() {
-		console.log('New value: ' + $input.val())
 		that.setValue($input.val());
 	});
-	
 });
+
+/**
+ * Initialize the field in the add action
+ *
+ * @param    {Mixed}   value
+ */
+ChimeraField.setMethod(function initAdd() {
+	return this.initEdit();
+});
+
+/**
+ * Initialize the field in the list action
+ *
+ * @param    {Mixed}   value
+ */
+ChimeraField.setMethod(function initList() {
+	return;
+});
+
+/**
+ * The Geopoint ChimeraField class
+ *
+ * @constructor
+ *
+ * @author   Jelle De Loecker   <jelle@kipdola.be>
+ * @since    1.0.0
+ * @version  1.0.0
+ *
+ * @param    {DOMElement}   container
+ * @param    {Object}       variables
+ */
+GeopointChimeraField = ChimeraField.extend(function GeopointChimeraField(container, variables) {
+	GeopointChimeraField.super.call(this, container, variables);
+});
+
+/**
+ * Initialize the field
+ *
+ * @param    {Mixed}   value
+ */
+GeopointChimeraField.setMethod(function initEdit() {
+
+	var that = this,
+	    $input = $('.chimeraField-prime', this.intake),
+	    coordinates;
+
+	options = {
+		minZoom: 1,
+		maxZoom: 16,
+		dragging: true,
+		editable: true
+	};
+
+	coordinates = this.value.coordinates || [];
+
+	result = applyGeopoint($input, coordinates[0], coordinates[1], options);
+
+	if (!result) {
+		throw new Error('Map wrapper could not be created');
+	}
+
+	map = result[0];
+	marker = result[1];
+
+	marker.on('dragend', function afterDrag() {
+		var coordinates = marker.getLatLng();
+		that.setValue([coordinates.lat, coordinates.lng]);
+		//$el.data('new-value', [coordinates.lat, coordinates.lng]);
+	});
+});
+
+/**
+ * Initialize the list field
+ *
+ * @param    {Mixed}   value
+ */
+GeopointChimeraField.setMethod(function initList() {
+
+	var that = this,
+	    $input = $('.geopoint-list', this.intake),
+	    options,
+	    coordinates;
+
+	options = {
+		dragging: false
+	};
+
+	coordinates = this.value.coordinates || [];
+
+	result = applyGeopoint($input, coordinates[0], coordinates[1], options);
+});
+
 
 hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/edit'}, applySave);
 hawkejs.scene.on({type: 'set', name: 'pageCentral', template: 'chimera/editor/add'}, applySave);
@@ -222,22 +334,18 @@ function editGeopoint(el, block) {
 	});
 }
 
-function applyGeopoint(el, _options) {
+function applyGeopoint($el, lat, lng, _options) {
 
 	var markOptions,
-	    wrapper = el.getElementsByClassName('geopoint-div')[0],
 	    options,
 	    marker,
 	    lat,
 	    lng,
 	    map;
-console.log(el)
-	if (wrapper == null) {
+
+	if ($el == null) {
 		throw new Error('Wrapper element not found, can\'t create map');
 	}
-
-	lat = parseFloat(wrapper.getAttribute('data-lat'));
-	lng = parseFloat(wrapper.getAttribute('data-lng'));
 
 	// Skip this map if the coordinates are not numbers
 	if (!isFinite(lat) || !isFinite(lng)) {
@@ -260,7 +368,7 @@ console.log(el)
 	Object.assign(options, _options);
 
 	// Add the point to the map
-	map = L.map(wrapper, options);
+	map = L.map($el[0], options);
 
 	L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
 		attribution: '',
